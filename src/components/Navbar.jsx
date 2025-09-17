@@ -6,7 +6,7 @@ import { IoMdSettings } from "react-icons/io";
 
 const Navbar = () => {
   return (
-    <header className=" flex items-center justify-between px-8 py-8">
+    <header className=" flex items-center justify-end px-8 py-8">
       {/* Right section */}
       <div className="flex items-center gap-8">
         <button className="relative">

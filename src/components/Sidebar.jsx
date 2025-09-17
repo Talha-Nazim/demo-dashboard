@@ -39,7 +39,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-full flex">
+    <div className=" flex">
       {/* Sidebar section */}
       <div
         className={`${
