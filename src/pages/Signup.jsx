@@ -1,41 +1,60 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = () => {
+const Signup = () => {
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleSave = (e) => {
     e.preventDefault();
 
-    // get all registered users from localStorage
+    // simple validation
+    if (!username || !email || !password) {
+      alert("Please fill in all fields");
+      return;
+    }
+
+    // get existing users or empty array
     const users = JSON.parse(localStorage.getItem("users")) || [];
 
-    // find a user with same email and password
-    const user = users.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (user) {
-      // set login flag & current user
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("currentUser", JSON.stringify(user));
-
-      // redirect to dashboard
-      navigate("/");
-    } else {
-      alert("Invalid email or password");
+    // check if user already exists
+    const exists = users.find((u) => u.email === email);
+    if (exists) {
+      alert("User already exists. Please login.");
+      navigate("/login");
+      return;
     }
+
+    // add new user
+    users.push({ username, email, password });
+    localStorage.setItem("users", JSON.stringify(users));
+
+    alert("Account created successfully. Please login.");
+    navigate("/login");
   };
 
   return (
-    <div className="flex items-center justify-center bg-gray-100">
+    <div className="flex items-center justify-center  bg-gray-100 ">
       <form
-        onSubmit={handleLogin}
+        onSubmit={handleSave}
         className="bg-white p-6 rounded-2xl shadow-md w-full max-w-md space-y-4"
       >
-        <h2 className="text-2xl font-bold text-center">Login</h2>
+        <h2 className="text-2xl font-bold text-center">Sign Up</h2>
+
+        <div className="flex flex-col">
+          <label className="text-sm font-medium text-gray-700 mb-1">
+            Username
+          </label>
+          <input
+            type="text"
+            placeholder="username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            className="border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
 
         <div className="flex flex-col">
           <label className="text-sm font-medium text-gray-700 mb-1">
@@ -67,12 +86,12 @@ const Login = () => {
           type="submit"
           className="w-full bg-zinc-800 text-white py-2 px-4 rounded-lg hover:bg-zinc-900 transition-colors"
         >
-          Login
+          Sign Up
         </button>
         <p className="text-center text-sm text-gray-600 mt-3">
-          Don’t have an account?{" "}
-          <Link to="/signup" className="text-zinc-900 hover:underline">
-            Sign up here
+          Already have an account?{" "}
+          <Link to="/login" className="text-zinc-900 hover:underline">
+            Login here
           </Link>
         </p>
       </form>
@@ -80,4 +99,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Signup;

@@ -9,10 +9,30 @@ const SecuritySettings = () => {
   const handleSave = (e) => {
     e.preventDefault();
 
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+    if (currentPassword !== currentUser.password) {
+      alert("Current password is incorrect");
+      return;
+    }
+
     if (newPassword !== confirmPassword) {
       alert("New passwords do not match");
       return;
     }
+
+    const users = JSON.parse(localStorage.getItem("users") || []);
+    const updatedUsers = users.map((u) =>
+      u.email === currentUser.email ? { ...u, password: newPassword } : u
+    );
+    localStorage.setItem("users", JSON.stringify(updatedUsers));
+
+    const updatedCurrentUser = { ...currentUser, password: newPassword };
+    localStorage.setItem("currentUser", JSON.stringify(updatedCurrentUser));
+
+    setCurrentPassword("");
+    setNewPassword("");
+    setConfirmPassword("");
 
     alert("Password changed successfully!");
   };

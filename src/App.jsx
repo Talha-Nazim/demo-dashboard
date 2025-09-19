@@ -7,6 +7,8 @@ import Settings from "./pages/Settings";
 import AuthLayout from "./layouts/AuthLayout";
 import Login from "./pages/Login";
 import DashboardLayout from "./layouts/DashboardLayout";
+import Signup from "./pages/Signup";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -21,35 +23,51 @@ function App() {
           }
         />
         <Route
+          path="/signup"
+          element={
+            <AuthLayout>
+              <Signup />
+            </AuthLayout>
+          }
+        />
+        <Route
           path="/"
           element={
-            <DashboardLayout>
-              <Dashboard />
-            </DashboardLayout>
+            <PrivateRoute>
+              <DashboardLayout>
+                <Dashboard />
+              </DashboardLayout>
+            </PrivateRoute>
           }
         />
         <Route
           path="/tables"
           element={
-            <DashboardLayout>
-              <Tables />
-            </DashboardLayout>
+            <PrivateRoute>
+              <DashboardLayout>
+                <Tables />
+              </DashboardLayout>
+            </PrivateRoute>
           }
         />
         <Route
           path="/analytics"
           element={
-            <DashboardLayout>
-              <Analytics />
-            </DashboardLayout>
+            <PrivateRoute>
+              <DashboardLayout>
+                <Analytics />
+              </DashboardLayout>
+            </PrivateRoute>
           }
         />
         <Route
           path="/settings/*"
           element={
-            <DashboardLayout>
-              <Settings />
-            </DashboardLayout>
+            <PrivateRoute>
+              <DashboardLayout>
+                <Settings />
+              </DashboardLayout>
+            </PrivateRoute>
           }
         />
       </Routes>
