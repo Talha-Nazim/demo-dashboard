@@ -1,10 +1,17 @@
 import React from "react";
-import { FaSearch } from "react-icons/fa";
 import { FaBell } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
-import { IoMdSettings } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
   return (
     <header className=" flex items-center justify-end px-8 py-8">
       {/* Right section */}
@@ -16,9 +23,10 @@ const Navbar = () => {
 
         <button className="flex items-center gap-1 text-gray-600 hover:text-gray-800">
           <FiLogOut />
-          <span className="hidden sm:inline">Logout</span>
+          <button className="hidden sm:inline" onClick={handleLogout}>
+            Logout
+          </button>
         </button>
-      
       </div>
     </header>
   );
